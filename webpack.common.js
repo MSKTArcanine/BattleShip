@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "TEMPLATE",
+      title: "BATTELSHIP",
       template: "./src/index.html",
       inject: "head",
       scriptLoading: "defer",
