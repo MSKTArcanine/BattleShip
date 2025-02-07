@@ -19,6 +19,7 @@ export class Ship {
     debugToolSetLength(value){
         this.length = value;
     }
+
     debugToolSetTimeHits(value){
         this.timeHits = value;
     }
