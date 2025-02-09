@@ -1,4 +1,4 @@
-import { forEach, zeros } from "mathjs";
+import { zeros } from "mathjs";
 import { shipData } from "./Singletons/ShipDataSingleton";
 
 export default class Gameboard {
@@ -23,7 +23,7 @@ export default class Gameboard {
         Gameboard.checkForHorizontalVertical();
         Gameboard.getPlacementCoordinates();
 
-        // this.place(ship);
+        this.place(ship);
         this.ships.push(ship);
         return true;
     }
@@ -91,7 +91,9 @@ export default class Gameboard {
     }
 
     place(ship){
-        forEach(shipData.coordinatesArray, (x) => this.board.set([x[0], x[1]], ship));
+        for(let v of shipData.coordinatesArray){
+            this.board.set(v, ship)
+        }
     }
 
     // receiveAttack(x, y){

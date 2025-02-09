@@ -103,18 +103,13 @@ describe('place function working', () => {
 
     it('correctly place a ship', () => {
         const submarine = new Submarine();
-        shipData.setShip(submarine)
-        shipData.setDirection('vertical');
-        shipData.setLength(2);
-        shipData.setX1(1);
-        shipData.setX2(1);
-        shipData.setY1(2);
-        shipData.setY2(1);
-        Gameboard.getPlacementCoordinates();
-        console.log(shipData.coordinatesArray.length);
-        console.log(shipData.coordinatesArray);
-        gameboard.place(submarine);
-        console.log(gameboard.board.get([1, 2]));
-        expect(1).toBe(1);
+        gameboard.placeShip(submarine, 1, 1, 3, 1);
+        console.table(shipData);
+        console.log(gameboard.board.get([1, 1]))
+        expect(gameboard.board.get([0, 1])).toBe(0);
+        expect(gameboard.board.get([1, 1])).toBeInstanceOf(Submarine);
+        expect(gameboard.board.get([2, 1])).toBeInstanceOf(Submarine);
+        expect(gameboard.board.get([3, 1])).toBeInstanceOf(Submarine);
+        expect(gameboard.board.get([4, 1])).toBe(0);
     })
 })
