@@ -1,4 +1,4 @@
-import { zeros } from "mathjs";
+import { forEach, zeros } from "mathjs";
 import { shipData } from "./Singletons/ShipDataSingleton";
 
 export default class Gameboard {
@@ -9,6 +9,7 @@ export default class Gameboard {
     }
 
     placeShip(ship, x1, y1, x2, y2){
+        shipData.setShip(ship);
         shipData.setLength(Gameboard.checkForLine(x1, y1, x2, y2));
         if(!shipData.length)
             return false;
@@ -18,15 +19,19 @@ export default class Gameboard {
         shipData.setX2(x2);
         shipData.setY1(y1);
         shipData.setY2(y2);
+
+        Gameboard.checkForHorizontalVertical();
+        Gameboard.getPlacementCoordinates();
+
+        // this.place(ship);
         this.ships.push(ship);
-        this.board.set([x, y], ship);
         return true;
     }
 
     static checkForLine(x1, y1, x2, y2){
         const diff1 = Math.abs(x2 - x1);
         const diff2 = Math.abs(y2 - y1);
-        if((!diff1 == diff2) && (diff1 == !diff2))
+        if((!Boolean(diff1) == Boolean(diff2)) && (Boolean(diff1) == !Boolean(diff2)))
             return Math.abs(diff2 - diff1) + 1;
         return false;
     }
@@ -85,13 +90,17 @@ export default class Gameboard {
         }
     }
 
-    receiveAttack(x, y){
-        const coordinateHit = this.board.get([x, y]);
-        if(!coordinateHit){
-            this.hitMissed.push([x, y]);
-            return false;
-        }
-        coordinateHit.hit();
-        this.board.set([x, y], 0);
+    place(ship){
+        forEach(shipData.coordinatesArray, (x) => this.board.set([x[0], x[1]], ship));
     }
+
+    // receiveAttack(x, y){
+    //     const coordinateHit = this.board.get([x, y]);
+    //     if(!coordinateHit){
+    //         this.hitMissed.push([x, y]);
+    //         return false;
+    //     }
+    //     coordinateHit.hit();
+    //     this.board.set([x, y], 0);
+    // }
 }

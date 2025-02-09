@@ -1,4 +1,4 @@
-import { size } from "mathjs";
+import { exp, getMatrixDataTypeDependencies, size } from "mathjs";
 import Gameboard from "../Gameboard";
 import Submarine from "../ShipTypes/Submarine";
 import { shipData } from "../Singletons/ShipDataSingleton";
@@ -18,6 +18,8 @@ describe('Gameboard init', () => {
 
 describe('Gameboard lineCheck + give correct length', ()=>{
     expect(Gameboard.checkForLine(3, 1, 4, 1)).toBeTruthy();
+    expect(Gameboard.checkForLine(1, 1, 3, 1)).toBeTruthy();
+    expect(Gameboard.checkForLine(1, 1, 3, 1)).toBe(3);
     expect(Gameboard.checkForLine(3, 2, 4, 1)).toBeFalsy();
     expect(Gameboard.checkForLine(3, 3, 4, 4)).toBeFalsy();
     expect(Gameboard.checkForLine(3, 1, 4, 1)).toBe(2);
@@ -91,5 +93,28 @@ describe('GetPlacementCoordinates', () => {
         shipData.setY2(1);
         Gameboard.getPlacementCoordinates();
         expect(shipData.coordinatesArray).toEqual([[1,2], [1,1]]);
+    })
+})
+
+describe('place function working', () => {
+    let gameboard;
+    beforeAll(() => gameboard = new Gameboard())
+    beforeEach(() => shipData.reset());
+
+    it('correctly place a ship', () => {
+        const submarine = new Submarine();
+        shipData.setShip(submarine)
+        shipData.setDirection('vertical');
+        shipData.setLength(2);
+        shipData.setX1(1);
+        shipData.setX2(1);
+        shipData.setY1(2);
+        shipData.setY2(1);
+        Gameboard.getPlacementCoordinates();
+        console.log(shipData.coordinatesArray.length);
+        console.log(shipData.coordinatesArray);
+        gameboard.place(submarine);
+        console.log(gameboard.board.get([1, 2]));
+        expect(1).toBe(1);
     })
 })

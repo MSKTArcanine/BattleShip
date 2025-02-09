@@ -1,4 +1,5 @@
 export const shipData = {
+    ship: null,
     length:null,
     coordinate0:null,
     coordinateToMove:null,
@@ -10,6 +11,7 @@ export const shipData = {
     coordinatesArray: [],
 
     reset : function(){
+        this.ship = null;
         this.length = null;
         this.coordinate0 = null;
         this.coordinateToMove = null;
@@ -19,6 +21,9 @@ export const shipData = {
         this.y2 = null;
         this.direction = null;
         this.coordinatesArray = [];
+    },
+    setShip : function(ship){
+        this.ship = ship
     },
     setLength : function(value){
         this.length = value;
