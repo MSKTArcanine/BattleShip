@@ -120,6 +120,13 @@ describe('placeShip(ship, x1, x2, y1, y2) function working + which is integratio
         expect(gameboard.board.get([3, 1])).toBeInstanceOf(Submarine);
         expect(gameboard.board.get([4, 1])).toBe(0);
     });
+    it('Correctly stores ships', () => {
+        const sub1 = new Submarine();
+        const sub2 = new Submarine();
+        gameboard.placeShip(sub1, 1, 1, 3, 1);
+        gameboard.placeShip(sub2, 5, 5, 7, 5);
+        expect(gameboard.ships.length).toBe(4);
+    })
     
 })
 
@@ -245,19 +252,27 @@ describe('receiveAttack(x,y), which is integration testing of previous fns', () 
 })
 
 describe('areShipSunken()', () => {
-    let gameboard, submarine;
+    let gameboard, submarine, submarine2;
 
     beforeAll(() => {
         gameboard = new Gameboard();
         submarine = new Submarine();
+        submarine2 = new Ship();
+        submarine2.debugToolSetLength(3);
     });
     beforeEach(() => shipData.reset());
     
-    it('returns true if all ship are sunk', () => {
+    it('returns true if all ships have sunk', () => {
         gameboard.placeShip(submarine, 1, 1, 3, 1);
+        gameboard.placeShip(submarine2, 5, 5, 7, 5);
+        expect(gameboard.ships.length).toBe(2);
         gameboard.receiveAttack(1, 1);
         gameboard.receiveAttack(2, 1);
         gameboard.receiveAttack(3, 1);
+        expect(gameboard.areShipSunk()).toBeFalsy();
+        gameboard.receiveAttack(5, 5);
+        gameboard.receiveAttack(6, 5);
+        gameboard.receiveAttack(7, 5);
         expect(gameboard.areShipSunk()).toBeTruthy();
     })
     

@@ -25,6 +25,9 @@ export default class Gameboard {
 
         this.place(ship);
         this.ships.push(ship);
+
+        shipData.reset();
+        
         return true;
     }
 
@@ -125,7 +128,7 @@ export default class Gameboard {
             this.storeMissedHit(x,y);
             return false;
         }else{
-            const ship = this.getShip(x,y);
+            let ship = this.getShip(x,y);
             if(!this.sendHit(ship))
                 return false;
             return this.replaceWithZero(x,y);
@@ -134,6 +137,6 @@ export default class Gameboard {
     }
 
     areShipSunk(){
-        return this.ships.every((s) => s.hasSunk === true);
+        return this.ships.every(s => s.hasSunk === true);
     }
 }
