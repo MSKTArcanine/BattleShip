@@ -224,6 +224,11 @@ describe('receiveAttack(x,y), which is integration testing of previous fns', () 
     });
     beforeEach(() => shipData.reset());
 
+    it('correctly deal damage to ship', () => {
+        expect(submarine.timeHits).toBe(0);
+
+    })
+
     it('return true on correct attacks', () => {
         gameboard.placeShip(submarine, 1, 1, 3, 1);
         expect(gameboard.getShip(1, 1)).toBeInstanceOf(Ship)
@@ -237,4 +242,23 @@ describe('receiveAttack(x,y), which is integration testing of previous fns', () 
         expect(gameboard.hitMissed.length).toBe(1);
         expect(gameboard.hitMissed[0]).toEqual([0, 1]);
     })
+})
+
+describe('areShipSunken()', () => {
+    let gameboard, submarine;
+
+    beforeAll(() => {
+        gameboard = new Gameboard();
+        submarine = new Submarine();
+    });
+    beforeEach(() => shipData.reset());
+    
+    it('returns true if all ship are sunk', () => {
+        gameboard.placeShip(submarine, 1, 1, 3, 1);
+        gameboard.receiveAttack(1, 1);
+        gameboard.receiveAttack(2, 1);
+        gameboard.receiveAttack(3, 1);
+        expect(gameboard.areShipSunk()).toBeTruthy();
+    })
+    
 })

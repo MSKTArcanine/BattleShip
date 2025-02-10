@@ -115,7 +115,7 @@ export default class Gameboard {
     }
 
     sendHit(ship){
-        if(!!ship?.hit?.())
+        if(!!ship?.hit)
             return ship.hit();
         return false;
     }
@@ -131,5 +131,9 @@ export default class Gameboard {
             return this.replaceWithZero(x,y);
         }
 
+    }
+
+    areShipSunk(){
+        return this.ships.every((s) => s.hasSunk === true);
     }
 }
