@@ -96,13 +96,40 @@ export default class Gameboard {
         }
     }
 
-    // receiveAttack(x, y){
-    //     const coordinateHit = this.board.get([x, y]);
-    //     if(!coordinateHit){
-    //         this.hitMissed.push([x, y]);
-    //         return false;
-    //     }
-    //     coordinateHit.hit();
-    //     this.board.set([x, y], 0);
-    // }
+    checkCoordinatesHit(x,y){
+        return Boolean(this.board.get([x,y])) ? true : false;
+    }
+
+    replaceWithZero(x, y){
+        this.board.set([x,y], 0);
+        return true;
+    }
+
+    getShip(x,y){
+        return this.board.get([x,y]);
+    }
+
+    storeMissedHit(x,y){
+        this.hitMissed.push([x,y]);
+        return true;
+    }
+
+    sendHit(ship){
+        if(!!ship?.hit?.())
+            return ship.hit();
+        return false;
+    }
+
+    receiveAttack(x, y){
+        if(!this.checkCoordinatesHit(x,y)){
+            this.storeMissedHit(x,y);
+            return false;
+        }else{
+            const ship = this.getShip(x,y);
+            if(!this.sendHit(ship))
+                return false;
+            return this.replaceWithZero(x,y);
+        }
+
+    }
 }

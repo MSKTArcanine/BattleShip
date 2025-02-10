@@ -10,6 +10,7 @@ export class Ship {
     hit(){
         this.timeHits += 1;
         this.isSunk();
+        return true;
     }
     isSunk(){
         if(this.length <= this.timeHits)
